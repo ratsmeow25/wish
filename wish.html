@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happiest Birthday Divya!</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Great+Vibes&family=Montserrat:wght@300;500;700&family=Tiro+Devanagari+Marathi&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS (via CDN for modern styling utility) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'krishna-blue': '#0F172A',
+                        'divine-gold': '#FFD700',
+                        'deep-space': '#020617',
+                    },
+                    fontFamily: {
+                        'cinzel': ['Cinzel', 'serif'],
+                        'vibes': ['Great Vibes', 'cursive'],
+                        'mont': ['Montserrat', 'sans-serif'],
+                        'marathi': ['Tiro Devanagari Marathi', 'serif'],
+                    },
+                    animation: {
+                        'float': 'float 10s ease-in-out infinite',
+                        'pulse-glow': 'pulseGlow 6s infinite',
+                        'spin-slow': 'spin 18s linear infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        pulseGlow: {
+                            '0%, 100%': { opacity: '1', filter: 'drop-shadow(0 0 10px rgba(74, 144, 226, 0.5))' },
+                            '50%': { opacity: '0.7', filter: 'drop-shadow(0 0 20px rgba(74, 144, 226, 0.8))' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom CSS for specific effects not covered by Tailwind */
+        body {
+            overflow-x: hidden;
+            background-color: #000;
+        }
+
+        /* Starry Background */
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(to bottom, #020617 50%, #0F172A 100%); /* Sky to Water */
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #020617;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4a5568;
+            border-radius: 4px;
+        }
+
+        /* Glassmorphism Card (Restored) */
+        .glass-card {
+            background: rgba(15, 23, 42, 0.45); /* Made more transparent */
+            backdrop-filter: blur(12px); /* Slightly reduced blur for clarity */
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.15); /* Made border slightly more visible */
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); /* Softened and adjusted shadow */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-8px); /* Lift card on hover */
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4); /* Enhance shadow on hover */
+            border-color: rgba(255, 255, 255, 0.25); /* Brighten border on hover */
+        }
+
+        /* Gold Text Gradient */
+        .text-gold-gradient {
+            background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* Feather SVG Animation */
+        .feather-path {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: drawFeather 3s ease-out forwards;
+        }
+
+        @keyframes drawFeather {
+            to { stroke-dashoffset: 0; }
+        }
+
+        /* Hidden Utility */
+        .hidden-content {
+            display: none;
+            opacity: 0; /* Start transparent */
+            transition: opacity 1.5s ease-in-out; /* Control fade-in */
+        }
+        
+        .visible-content {
+            opacity: 1; /* Fade to this */
+        }
+
+    </style>
+</head>
+<body class="text-white antialiased selection:bg-blue-500 selection:text-white">
+
+    <!-- Canvas for Stars/Particles -->
+    <canvas id="canvas-container"></canvas>
+
+    <!-- INTRO SCREEN -->
+    <div id="intro-screen" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black transition-all duration-1000 ease-in-out">
+        
+        <!-- Animated Feather Icon (SVG) -->
+        <div class="mb-8 relative w-24 h-24 md:w-32 md:h-32">
+            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full drop-shadow-[0_0_15px_rgba(59,130,246,0.5)]">
+                <!-- Simplified Peacock Feather Outline -->
+                <path d="M50 95C50 95 20 70 20 40C20 20 35 5 50 5C65 5 80 20 80 40C80 70 50 95 50 95Z" stroke="#3B82F6" stroke-width="2" class="feather-path" stroke-linecap="round"/>
+                <circle cx="50" cy="35" r="10" stroke="#FFD700" stroke-width="2" class="feather-path" style="animation-delay: 0.5s;"/>
+                <circle cx="50" cy="35" r="5" fill="#3B82F6" class="animate-pulse-glow"/>
+            </svg>
+        </div>
+
+        <!-- Quote Container -->
+        <div class="max-w-2xl px-8 text-center">
+            <p id="quote-text" class="font-vibes text-2xl md:text-4xl text-gray-200 leading-relaxed min-h-[120px]"></p>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main-content" class="hidden-content relative z-10 min-h-screen flex flex-col items-center justify-center py-20 px-4">
+        
+        <!-- Header Section -->
+        <header class="text-center mb-16 relative animate-float">
+            <h1 class="font-vibes text-6xl md:text-8xl mb-4 text-gold-gradient drop-shadow-lg">Happiest Birthday</h1>
+            <h2 class="font-cinzel text-3xl md:text-5xl text-white tracking-widest">Divya</h2>
+        </header>
+
+        <!-- Content Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl w-full">
+            
+            <!-- Card 1: The Journey (BDS) -->
+            <div class="glass-card rounded-2xl p-8 md:col-span-2 text-center relative overflow-hidden">
+                <div class="flex items-center justify-center mb-4">
+                    <span class="text-3xl mr-4">🩺</span>
+                    <h3 class="font-cinzel text-xl text-blue-300 tracking-wider">To the Future Doctor</h3>
+                </div>
+                <p class="font-mont text-gray-300 leading-relaxed">
+                    I know how hard you study, and it’s honestly inspiring. That ‘Dr.’ title is going to look so good on you..!</p>
+            </div>
+
+            <!-- Card 3: Marathi Wish (Center) -->
+            <div class="glass-card rounded-2xl p-8 md:col-span-2 text-center relative overflow-hidden">
+                <!-- Decorative background element -->
+                <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-purple-900/10 to-pink-900/10 opacity-50 z-[-1]"></div>
+                
+                <div class="font-marathi text-xl md:text-2xl text-white leading-loose">
+                    <span class="font-bold text-2xl block mb-2">वाढदिवसाच्या खूप शुभेच्छा, दिव्या!</span>
+                    <p class="italic text-gray-300">
+                        "तुझी सर्व स्वप्ने पूर्ण होवोत, हीच कान्हाचरणी प्रार्थना!"
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-5 text-center opacity-60">
+            <div class="text-2xl mb-4 animate-spin-slow inline-block">🪷</div>
+        </footer>
+    </div>
+
+    <!-- Audio (Hidden, Autoplay workaround via button click) -->
+    <!-- Note: Since we cannot include actual mp3 files reliably without external hosting, we stick to visual immersion -->
+
+    <script>
+        // --- PARTICLE SYSTEM (STARS & FIREFLIES) ---
+        const canvas = document.getElementById('canvas-container');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+
+        function resize() {
+            width = canvas.width = window.innerWidth; // Set canvas width to window width
+            height = canvas.height = window.innerHeight; // Set canvas height to window height
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Star {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height * 0.5; // Only in the top 50% (sky)
+                this.size = Math.random() * 1.5;
+                this.speedX = (Math.random() - 0.5) * 0.1;
+                this.speedY = (Math.random() - 0.5) * 0.1;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x > width || this.x < 0) this.speedX *= -1;
+                if (this.y > height * 0.5 || this.y < 0) this.speedY *= -1;
+            }
+            draw() {
+                ctx.fillStyle = `rgba(255, 255, 255, ${Math.sin(Date.now() * 0.001 + this.x) * 0.5 + 0.5})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        class Reflection {
+            constructor(star) {
+                this.star = star;
+                this.y_offset = height * 0.5;
+                this.distortion = (Math.random() - 0.5) * 40;
+                this.opacity = Math.random() * 0.3 + 0.1;
+            }
+            update() { /* Does not need its own update, follows the star */ }
+            draw() {
+                const reflected_y = this.y_offset + (this.y_offset - this.star.y);
+                const shimmer = Math.sin(Date.now() * 0.001 + this.star.x) * 0.5 + 0.5;
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity * shimmer})`;
+                ctx.beginPath();
+                ctx.arc(this.star.x + this.distortion * Math.sin(Date.now() * 0.0005), reflected_y, this.star.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        class Firefly {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 2 + 1;
+                this.speedX = Math.random() * 0.5 - 0.25;
+                this.speedY = Math.random() * 0.5 - 0.25;
+                this.opacity = 0;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x > width + 20 || this.x < -20 || this.y > height + 20 || this.y < -20) {
+                    // Reset position when it goes too far off-screen
+                    this.x = Math.random() * width;
+                    this.y = Math.random() * height;
+                }
+                this.opacity = Math.abs(Math.sin(Date.now() * 0.002 + this.y));
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 215, 0, ${this.opacity})`; // Gold color
+                ctx.shadowColor = 'rgba(255, 215, 0, 0.8)';
+                ctx.shadowBlur = 15;
+                ctx.fill();
+            }
+        }
+
+        class Ripple {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.radius = 1;
+                this.maxRadius = 100; // Made ripple slightly larger
+                this.speed = 2;
+                this.life = 1;
+            }
+            update() {
+                this.radius += this.speed;
+                this.life -= 0.02;
+            }
+            draw() {
+                ctx.strokeStyle = `rgba(150, 200, 255, ${this.life})`;
+                ctx.lineWidth = 1.5;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.stroke();
+            }
+        }
+
+        class WaterSparkle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = height * 0.5 + Math.random() * (height * 0.5); // Only in water
+                this.size = Math.random() * 1 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.2;
+                this.speedY = (Math.random() - 0.5) * 0.2;
+                this.opacity = Math.random() * 0.5 + 0.1;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x > width || this.x < 0) this.speedX *= -1;
+                if (this.y > height || this.y < height * 0.5) this.speedY *= -1;
+            }
+            draw() {
+                const shimmer = Math.sin(Date.now() * 0.002 + this.y) * 0.5 + 0.5;
+                ctx.fillStyle = `rgba(180, 220, 255, ${this.opacity * shimmer})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            const stars = [];
+            for (let i = 0; i < 100; i++) {
+                const star = new Star();
+                stars.push(star);
+                particles.push(star);
+                particles.push(new Reflection(star));
+            }
+            for (let i = 0; i < 20; i++) particles.push(new Firefly());
+            for (let i = 0; i < 50; i++) particles.push(new WaterSparkle());
+        }
+        initParticles();
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, width, height);
+            ctx.shadowBlur = 0; // Reset shadow for stars
+            particles = particles.filter(p => !p.life || p.life > 0); // Remove dead ripples
+            particles.forEach((p, index) => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // --- RIPPLE EFFECT ON MOUSE DOWN (for immediate feedback) ---
+        window.addEventListener('mousedown', (e) => {
+            // Only create ripples in the water area
+            if (e.clientY > height * 0.5) {
+                particles.push(new Ripple(e.clientX, e.clientY));
+            }
+        });
+
+        // --- TYPEWRITER EFFECT ---
+        const quote = "Another year wiser, stronger, and more you..!";
+        const quoteElement = document.getElementById('quote-text');
+
+        let i = 0;
+        const speed = 50; // Typing speed in ms
+
+        function typeWriter() {
+            if (i < quote.length) {
+                quoteElement.innerHTML += quote.charAt(i);
+                i++;
+                setTimeout(typeWriter, speed);
+            } else {
+                // Finished typing, transition to main content
+                // Automatically transition after the quote is typed
+                setTimeout(transitionToMain, 1500); // Wait 1.5s before transitioning
+            }
+        }
+
+        // Start typing after a slight delay for the page to load
+        setTimeout(typeWriter, 1000);
+
+        // --- TRANSITION LOGIC ---
+        const introScreen = document.getElementById('intro-screen');
+        const mainContent = document.getElementById('main-content');
+
+        function transitionToMain() {
+            // Start fading out the intro screen
+            introScreen.style.opacity = '0';
+            introScreen.style.pointerEvents = 'none'; // Prevent blocking clicks
+
+            // Prepare main content for fade-in
+            mainContent.style.display = 'flex';
+
+            // Trigger the fade-in for main content almost immediately
+            setTimeout(() => {
+                mainContent.classList.add('visible-content');
+            }, 50); // Small delay to ensure display property is set before transition starts
+
+            // Hide the intro screen completely after its fade-out is done (1s)
+            setTimeout(() => {
+                introScreen.style.display = 'none';
+            }, 1000);
+        }
+
+    </script>
+</body>
+</html>
